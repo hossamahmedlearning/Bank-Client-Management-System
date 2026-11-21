@@ -1,46 +1,37 @@
 # 🏦 Bank System (C++ Console Application)
 
-A robust and modular **Bank System** console application built using C++ as part of the advanced programming curriculum. This project demonstrates practical implementation of file handling, CRUD operations, structured programming principles, and clean code architecture.
+A modular **Bank System** console application written in C++ featuring client CRUD operations, a dedicated **Transactions** sub-menu, input validation, and persistent text-file storage (`Clients.txt`).
 
 ---
 
-## 🚀 Features & Main Menu Operations
+## 🚀 Features
 
-The application provides an interactive menu-driven interface allowing users to perform complete client management:
-
-1. **Show Client List:** Displays a formatted table of all registered clients loaded from a text file, including account count metrics.
-2. **Add New Clients:** Allows adding single or multiple new clients with built-in validation to prevent duplicate account numbers.
-3. **Find Client:** Searches for a specific client by their account number and displays their client card details.
-4. **Update Client Info:** Modifies existing client records (Pin Code, Name, Phone, Balance) by account number with persistent file updates.
-5. **Delete Client:** Safely removes a client record from the file using a marker-based deletion and confirmation workflow.
-6. **Exit:** Gracefully terminates the program session.
-
----
-
-## 🛠️ Technical Highlights & Concepts Applied
-
-- **File I/O Streams (`<fstream>`):** Persistent data storage utilizing text files (`Clients.txt`) for saving, loading, updating, and deleting records without losing data upon exit.
-- **String Parsing & Formatting:** Custom delimiters (`#//#`) to serialize and deserialize structured records into line-based text formats (`vector <string> SplitString`).
-- **Data Structures (`struct`):** Custom `stClient` data models encapsulating attributes like `AccountNumber`, `PinCode`, `Name`, `Phone`, `AccountBalance`, and deletion flags.
-- **Modular Architecture:** Strictly adheres to the **Single Responsibility Principle (SRP)**, separating user interface screens, business logic validation, and file data access layers into clean functions.
-- **Input Validation & Safety:** Robust range-checking routines and stream state management (`cin >> ws`) to handle user inputs cleanly.
+### Main Menu (`enMainMenuOptions`)
+1. **Show Client List:** Loads records from `Clients.txt` and displays all clients in a formatted table along with the total client count.
+2. **Add New Client:** Adds one or more clients with duplicate account number checks and positive balance validation.
+3. **Delete Client:** Searches by account number, prints the client card, asks for confirmation, marks the record for deletion, and updates `Clients.txt`.
+4. **Update Client:** Updates a client's Pin Code, Name, Phone, and Balance with confirmation and file persistence.
+5. **Find Client:** Searches for a client by account number and displays their full details card.
+6. **Transactions:** Opens the **Transactions Menu** (`enTransactionsMenuOptions`):
+   - **Deposit:** Adds a validated positive amount to a client's balance and saves the updated records.
+   - **Withdraw:** Checks that the withdrawal amount is positive and does not exceed the client's available balance before updating the file.
+   - **Total Balances:** Displays each client's account number, name, and balance alongside the combined total balance.
+7. **Exit:** Displays the exit screen and cleanly terminates the application.
 
 ---
 
-## 📂 Code Structure Overview
+## 🛠️ Technical Highlights
+
+- **File Persistence (`<fstream>`):** Reads, appends, and rewrites client records in `Clients.txt`.
+- **Serialization & Parsing:** Uses `#//#` delimiters (`SplitString`, `ConvertClientLineToRecord`, `ConvertClientRecordToLine`) to convert between `stClient` structs and text lines.
+- **Input & Stream Safety:** Clears invalid stream states (`cin.clear()` / `cin.ignore()`) on non-numeric input, checks menu ranges, and enforces positive monetary amounts.
+- **Iterative Menu Loop:** Uses `while` loops for the Main Menu and Transactions Menu to avoid recursive call-stack growth during extended sessions.
+
+---
+
+## 📂 Project Structure
 
 ```text
-├── Clients.txt            # Local database text file storing client records
-├── main.cpp               # Core application source code containing screens & logic
-└── README.md              # Project documentation
-💻 How to Run
-Clone or download the repository to your local machine.
-
-Open the project in an IDE supporting C++ (such as Visual Studio or Code::Blocks).
-
-Compile and run main.cpp.
-
-Ensure Clients.txt is in the working directory (the program will create or manage it automatically during runtime).
-
-👤 Author
-Hossam Ahmed Ragab
+├── Clients.txt          # Persistent text file storing serialized client records
+├── main.cpp             # Core application source code (menus, CRUD, transactions)
+└── README.md            # Project documentation
